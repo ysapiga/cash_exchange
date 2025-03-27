@@ -13,7 +13,7 @@
 </header>
 
 <!-- Модальне вікно -->
-<div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+<div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
     <div class="bg-[#282741] rounded-xl p-6 w-full max-w-md mx-4">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-white">Замовити дзвінок</h2>
@@ -23,14 +23,15 @@
                 </svg>
             </button>
         </div>
-        <form id="orderForm" class="space-y-4">
+        <form id="contactForm" class="space-y-4">
+            @csrf
             <div>
-                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Ім'я</label>
-                <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-[#94b13c]">
+                <label for="contact_name" class="block text-sm font-medium text-gray-300 mb-1">Ім'я</label>
+                <input type="text" id="contact_name" name="contact_name" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-[#94b13c]">
             </div>
             <div>
-                <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Номер телефону</label>
-                <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-[#94b13c]">
+                <label for="contact_phone" class="block text-sm font-medium text-gray-300 mb-1">Номер телефону</label>
+                <input type="tel" id="contact_phone" name="contact_phone" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-[#94b13c]">
             </div>
             <button type="submit" class="w-full bg-[#94b13c] text-white px-6 py-2 rounded-lg hover:bg-[#8aa336] transition-all duration-300">
                 Відправити
@@ -40,27 +41,44 @@
 </div>
 
 <script>
-function openModal() {
-    document.getElementById('orderModal').classList.remove('hidden');
-    document.getElementById('orderModal').classList.add('flex');
-}
-
-function closeModal() {
-    document.getElementById('orderModal').classList.add('hidden');
-    document.getElementById('orderModal').classList.remove('flex');
-}
-
-// Закриття модального вікна при кліку поза ним
-document.getElementById('orderModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeModal();
+    function openModal() {
+        document.getElementById('contactModal').classList.remove('hidden');
+        document.getElementById('contactModal').classList.add('flex');
     }
-});
 
-// Обробка відправки форми
-document.getElementById('orderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Тут можна додати логіку відправки форми
-    closeModal();
-});
+    function closeModal() {
+        document.getElementById('contactModal').classList.add('hidden');
+        document.getElementById('contactModal').classList.remove('flex');
+    }
+
+    // Закриття модального вікна при кліку поза ним
+    document.getElementById('contactModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch('{{ route('contact-requests.store') }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            closeModal();
+            this.reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Помилка при відправці форми');
+        });
+    });
 </script> 
