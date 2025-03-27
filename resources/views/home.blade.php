@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
-    <div class="bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8">
+    <div class="bg-[#282741] rounded-2xl shadow-xl p-6 md:p-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курси валют</h1>
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="mt-8 bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+    <div class="mt-8 bg-[#282741] rounded-2xl shadow-xl overflow-hidden">
         <iframe 
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=вул.+Автомобілістів,+18,+Мукачево,+Закарпатська+область,+Україна" 
             width="100%" 

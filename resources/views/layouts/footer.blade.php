@@ -1,4 +1,4 @@
-<footer class="bg-gray-800 shadow-sm mt-8">
+<footer class="bg-[#282741] shadow-sm mt-8">
     <div class="container mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-start">
             <div class="mb-6 md:mb-0">
