@@ -27,8 +27,8 @@
                     <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors duration-200">
                         <td class="py-4 px-4">
                             <div class="flex items-center">
-                                <span class="text-lg font-semibold text-white">{{ $rate->currency->currency_code }}</span>
-                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->created_at->format('H:i') }}</span>
+                                <span class="text-lg font-semibold text-white">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</span>
+                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->format('H:i') }}</span>
                             </div>
                         </td>
                         <td class="py-4 px-4 text-right">

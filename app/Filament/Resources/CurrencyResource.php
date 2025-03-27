@@ -19,19 +19,65 @@ class CurrencyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationGroup = 'Управління валютами';
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('currency_code')
                     ->required()
-                    ->maxLength(3)
-                    ->label('Код валюти'),
+                    ->maxLength(3),
+                Forms\Components\Select::make('icon')
+                    ->options([
+                        '🇺🇸' => 'USD',
+                        '🇪🇺' => 'EUR',
+                        '🇬🇧' => 'GBP',
+                        '🇨🇭' => 'CHF',
+                        '🇵🇱' => 'PLN',
+                        '🇨🇿' => 'CZK',
+                        '🇭🇺' => 'HUF',
+                        '🇷🇴' => 'RON',
+                        '🇧🇬' => 'BGN',
+                        '🇭🇷' => 'HRK',
+                        '🇷🇺' => 'RUB',
+                        '🇰🇿' => 'KZT',
+                        '🇹🇷' => 'TRY',
+                        '🇨🇳' => 'CNY',
+                        '🇯🇵' => 'JPY',
+                        '🇰🇷' => 'KRW',
+                        '🇦🇪' => 'AED',
+                        '🇮🇱' => 'ILS',
+                        '🇸🇪' => 'SEK',
+                        '🇳🇴' => 'NOK',
+                        '🇩🇰' => 'DKK',
+                        '🇦🇺' => 'AUD',
+                        '🇨🇦' => 'CAD',
+                        '🇳🇿' => 'NZD',
+                        '🇸🇬' => 'SGD',
+                        '🇭🇰' => 'HKD',
+                        '🇹🇭' => 'THB',
+                        '🇮🇳' => 'INR',
+                        '🇧🇷' => 'BRL',
+                        '🇿🇦' => 'ZAR',
+                        '🇲🇽' => 'MXN',
+                        '🇦🇷' => 'ARS',
+                        '🇨🇱' => 'CLP',
+                        '🇵🇪' => 'PEN',
+                        '🇨🇴' => 'COP',
+                        '🇪🇬' => 'EGP',
+                        '🇲🇦' => 'MAD',
+                        '🇹🇳' => 'TND',
+                        '🇱🇧' => 'LBP',
+                        '🇯🇴' => 'JOD',
+                        '🇶🇦' => 'QAR',
+                        '🇰🇼' => 'KWD',
+                        '🇧🇭' => 'BHD',
+                        '🇴🇲' => 'OMR',
+                        '🇸🇦' => 'SAR',
+                    ])
+                    ->required(),
                 Forms\Components\Toggle::make('is_active')
-                    ->required()
-                    ->label('Активна'),
+                    ->label('Активна')
+                    ->default(true),
             ]);
     }
 
@@ -40,27 +86,20 @@ class CurrencyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('currency_code')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Код валюти'),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('icon')
+                    ->label('Прапор')
+                    ->formatStateUsing(fn ($state) => $state)
+                    ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Активна')
                     ->boolean()
-                    ->sortable()
-                    ->label('Активна'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Створено'),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Оновлено'),
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->sortable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Активність'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -76,7 +115,7 @@ class CurrencyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\RatesRelationManager::class,
+            //
         ];
     }
 

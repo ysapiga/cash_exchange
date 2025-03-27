@@ -11,6 +11,7 @@ class Currency extends Model
 
     protected $fillable = [
         'currency_code',
+        'icon',
         'is_active'
     ];
 
