@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CurrencyRate;
 use App\Models\ConversionRate;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,6 +28,8 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('rates', 'conversionRates'));
+        $contactInfo = ContactInfo::first();
+
+        return view('home', compact('rates', 'conversionRates', 'contactInfo'));
     }
 }
