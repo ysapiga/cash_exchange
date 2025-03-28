@@ -25,6 +25,8 @@ class CurrencyRateResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Курс Валют';
 
+    protected static ?int $navigationSort = 20;
+
     public static function form(Form $form): Form
     {
         return $form

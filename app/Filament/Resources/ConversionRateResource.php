@@ -17,6 +17,8 @@ class ConversionRateResource extends Resource
 {
     protected static ?string $model = ConversionRate::class;
 
+    protected static ?int $navigationSort = 30;
+
     protected static ?string $navigationLabel = 'Курси Конвертації';
 
     protected static ?string $modelLabel = 'Курс Конвертації';

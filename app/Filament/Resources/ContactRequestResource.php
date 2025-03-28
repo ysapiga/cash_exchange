@@ -17,12 +17,14 @@ class ContactRequestResource extends Resource
 {
     protected static ?string $model = ContactRequest::class;
 
+    protected static ?int $navigationSort = 40;
+
     protected static ?string $navigationIcon = 'heroicon-o-phone';
-    
+
     protected static ?string $navigationLabel = 'Запити';
-    
+
     protected static ?string $modelLabel = 'Запит';
-    
+
     protected static ?string $pluralModelLabel = 'Запити';
 
     public static function canCreate(): bool
