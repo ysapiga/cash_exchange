@@ -19,7 +19,11 @@ class CurrencyRateResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
-    protected static ?string $navigationGroup = 'Управління валютами';
+    protected static ?string $navigationLabel = 'Курс Валют';
+
+    protected static ?string $modelLabel = 'Курс Валют';
+
+    protected static ?string $pluralModelLabel = 'Курс Валют';
 
     public static function form(Form $form): Form
     {
@@ -32,10 +36,12 @@ class CurrencyRateResource extends Resource
                 Forms\Components\TextInput::make('price_to_buy')
                     ->required()
                     ->numeric()
+                    ->step(0.01)
                     ->label('Ціна купівлі'),
                 Forms\Components\TextInput::make('price_to_sell')
                     ->required()
                     ->numeric()
+                    ->step(0.01)
                     ->label('Ціна продажу'),
             ]);
     }
@@ -46,7 +52,6 @@ class CurrencyRateResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('currency.currency_code')
                     ->searchable()
-                    ->sortable()
                     ->label('Валюта'),
                 Tables\Columns\TextColumn::make('price_to_buy')
                     ->numeric()
@@ -62,9 +67,7 @@ class CurrencyRateResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('currency')
-                    ->relationship('currency', 'currency_code')
-                    ->label('Валюта'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -80,7 +83,7 @@ class CurrencyRateResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\CurrencyRelationManager::class,
+            //
         ];
     }
 

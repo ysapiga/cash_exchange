@@ -19,13 +19,19 @@ class CurrencyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
+    protected static ?string $navigationLabel = 'Доступні Валюти';
+
+    protected static ?string $modelLabel = 'Доступна Валюта';
+
+    protected static ?string $pluralModelLabel = 'Доступні Валюти';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('currency_code')
                     ->required()
-                    ->maxLength(3),
+                    ->maxLength(5),
                 Forms\Components\Select::make('icon')
                     ->options([
                         '🇺🇸' => 'USD',
