@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CurrencyRate;
+use App\Models\ConversionRate;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,6 +17,16 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home', compact('rates'));
+        $conversionRates = ConversionRate::with(['currencyFrom', 'currencyTo'])
+            ->whereHas('currencyFrom', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->whereHas('currencyTo', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('home', compact('rates', 'conversionRates'));
     }
 }
