@@ -5,11 +5,8 @@
     <div class="bg-[#282741] rounded-2xl shadow-xl p-4 md:p-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
-                <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курси валют</h1>
-                <p class="text-gray-400">Актуальні курси обміну валют на сьогодні</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <p class="text-sm text-gray-400">Оновлено: {{ now()->format('d.m.Y H:i') }}</p>
+                <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс валют</h1>
+                <p class="text-gray-400">Актуальний курс обміну валют на сьогодні</p>
             </div>
         </div>
 
@@ -28,7 +25,7 @@
                         <td class="py-4 px-2 md:px-4">
                             <div class="flex items-center">
                                 <span class="text-lg font-semibold text-white">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</span>
-                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->format('H:i') }}</span>
+                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->copy()->tz('Europe/Kiev')->format('H:i') }}</span>
                             </div>
                         </td>
                         <td class="py-4 px-2 md:px-4 text-right">
@@ -49,9 +46,6 @@
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс конвертації</h1>
                 <p class="text-gray-400">Курси конвертації між валютами</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <p class="text-sm text-gray-400">Оновлено: {{ now()->format('d.m.Y H:i') }}</p>
             </div>
         </div>
 
@@ -75,11 +69,11 @@
                                     </svg>
                                     <span class="text-lg font-semibold text-white">{{ $rate->currencyTo->icon }} {{ $rate->currencyTo->currency_code }}</span>
                                 </div>
-                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->format('H:i') }}</span>
+                                <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->copy()->tz('Europe/Kiev')->format('H:i') }}</span>
                             </div>
                         </td>
                         <td class="py-4 px-2 md:px-4 text-center">
-                            <span class="text-lg font-semibold text-emerald-400">{{ number_format($rate->conversion_rate, 4) }}</span>
+                            <span class="text-lg font-semibold text-emerald-400">{{ rtrim(rtrim(number_format($rate->conversion_rate, 10, '.', ''), '0'), '.') }}</span>
                         </td>
                     </tr>
                     @endforeach
@@ -89,12 +83,12 @@
     </div>
 
     <div class="mt-8 bg-[#282741] rounded-2xl shadow-xl overflow-hidden">
-        <iframe 
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=вул.+Автомобілістів,+18,+Мукачево,+Закарпатська+область,+Україна" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
+        <iframe
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{$contactInfo->coordinates}}&zoom=15"
+            width="100%"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
             loading="lazy">
         </iframe>
     </div>

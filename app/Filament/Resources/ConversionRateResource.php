@@ -46,8 +46,7 @@ class ConversionRateResource extends Resource
                 Forms\Components\TextInput::make('conversion_rate')
                     ->label('Курс конвертації')
                     ->numeric()
-                    ->required()
-                    ->step(0.01)
+                    ->required(),
                 ]);
     }
 
