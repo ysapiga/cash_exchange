@@ -45,6 +45,11 @@ class CurrencyRateResource extends Resource
                     ->numeric()
                     ->step(0.01)
                     ->label('Ціна продажу'),
+                Forms\Components\TextInput::make('position')
+                    ->label('Позиція')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
             ]);
     }
 
@@ -66,6 +71,10 @@ class CurrencyRateResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Оновлено')
                     ->dateTime('d.m.Y H:i')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Позиція')
+                    ->numeric()
                     ->sortable(),
             ])
             ->filters([

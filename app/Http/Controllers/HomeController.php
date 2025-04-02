@@ -15,7 +15,7 @@ class HomeController extends Controller
             ->whereHas('currency', function ($query) {
                 $query->where('is_active', true);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('position', 'asc')
             ->get();
 
         $conversionRates = ConversionRate::with(['currencyFrom', 'currencyTo'])
@@ -25,7 +25,7 @@ class HomeController extends Controller
             ->whereHas('currencyTo', function ($query) {
                 $query->where('is_active', true);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('position', 'asc')
             ->get();
 
         $contactInfo = ContactInfo::first();

@@ -25,7 +25,7 @@ class ConversionRateResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Курси Конвертації';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function form(Form $form): Form
     {
@@ -47,6 +47,11 @@ class ConversionRateResource extends Resource
                     ->label('Курс конвертації')
                     ->numeric()
                     ->required(),
+                Forms\Components\TextInput::make('position')
+                    ->label('Позиція')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
                 ]);
     }
 
@@ -62,6 +67,10 @@ class ConversionRateResource extends Resource
                     ->label('Currency To'),
                 Tables\Columns\TextColumn::make('conversion_rate')
                     ->label('Conversion Rate'),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Позиція')
+                    ->numeric()
+                    ->sortable(),
             ])
             ->filters([
                 //

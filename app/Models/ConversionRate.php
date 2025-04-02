@@ -13,6 +13,7 @@ class ConversionRate extends Model
         'currency_from',
         'currency_to',
         'conversion_rate',
+        'position'
     ];
 
     public function currencyFrom()

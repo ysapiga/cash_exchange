@@ -12,7 +12,8 @@ class CurrencyRate extends Model
     protected $fillable = [
         'currency_id',
         'price_to_buy',
-        'price_to_sell'
+        'price_to_sell',
+        'position'
     ];
 
     protected $casts = [
