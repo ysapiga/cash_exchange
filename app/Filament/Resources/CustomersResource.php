@@ -72,7 +72,7 @@ class CustomersResource extends Resource
                 TextColumn::make('identifier')->label('Номер Карти')->sortable()->searchable(),
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('last_name')->label('Прізвище')->sortable()->searchable(),
-                TextColumn::make('telephone')->label('Телефон')->sortable(),
+                TextColumn::make('telephone')->label('Телефон')->sortable()->searchable(),
                 TextColumn::make('email')->sortable()->searchable(),
                 TextColumn::make('date_of_birth')
                     ->label('Дата народження')
