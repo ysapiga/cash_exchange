@@ -38,12 +38,10 @@ class CurrencyRateResource extends Resource
                 Forms\Components\TextInput::make('price_to_buy')
                     ->required()
                     ->numeric()
-                    ->step(0.01)
                     ->label('Ціна купівлі'),
                 Forms\Components\TextInput::make('price_to_sell')
                     ->required()
                     ->numeric()
-                    ->step(0.01)
                     ->label('Ціна продажу'),
                 Forms\Components\TextInput::make('position')
                     ->label('Позиція')

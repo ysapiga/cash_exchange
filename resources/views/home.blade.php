@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <link rel="icon" href="data:,">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cash 47</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    @extends('layouts.app')
 
-    @section('content')
+
+@extends('layouts.app')
+
+ @section('content')
     <div class="max-w-4xl mx-auto">
         <div class="bg-[#282741] rounded-2xl shadow-xl p-4 md:p-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -35,14 +27,14 @@
                             <td class="py-4 px-2 md:px-4">
                                 <div class="flex items-center">
                                     <span class="text-lg font-semibold text-white">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</span>
-                                    <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->copy()->tz('Europe/Kiev')->format('H:i') }}</span>
+
                                 </div>
                             </td>
                             <td class="py-4 px-2 md:px-4 text-right">
-                                <span class="text-lg font-semibold text-emerald-400">{{ number_format($rate->price_to_buy, 2) }}</span>
+                                <span class="text-lg font-semibold text-emerald-400">{{ rtrim(rtrim(number_format($rate->price_to_buy, 10, '.', ''), '0'), '.') }}</span>
                             </td>
                             <td class="py-4 px-2 md:px-4 text-right">
-                                <span class="text-lg font-semibold text-red-400">{{ number_format($rate->price_to_sell, 2) }}</span>
+                                <span class="text-lg font-semibold text-red-400">{{ rtrim(rtrim(number_format($rate->price_to_sell, 10, '.', ''), '0'), '.') }}</span>
                             </td>
                         </tr>
                         @endforeach
@@ -79,7 +71,7 @@
                                         </svg>
                                         <span class="text-lg font-semibold text-white">{{ $rate->currencyTo->icon }} {{ $rate->currencyTo->currency_code }}</span>
                                     </div>
-                                    <span class="ml-2 text-sm text-gray-400">Оновлено: {{ $rate->updated_at->copy()->tz('Europe/Kiev')->format('H:i') }}</span>
+
                                 </div>
                             </td>
                             <td class="py-4 px-2 md:px-4 text-center">
@@ -93,8 +85,8 @@
         </div>
 
         <div class="mt-8 bg-[#282741] rounded-2xl shadow-xl overflow-hidden">
-            <iframe
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{$contactInfo->coordinates}}&zoom=15"
+            <iframe title="map"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{$contactInfo?->coordinates}}&zoom=15"
                 width="100%"
                 height="450"
                 style="border:0;"
@@ -103,6 +95,5 @@
             </iframe>
         </div>
     </div>
-    @endsection
-</body>
-</html>
+@endsection
+

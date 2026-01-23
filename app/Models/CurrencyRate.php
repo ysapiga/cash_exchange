@@ -17,8 +17,8 @@ class CurrencyRate extends Model
     ];
 
     protected $casts = [
-        'price_to_buy' => 'decimal:2',
-        'price_to_sell' => 'decimal:2'
+        'price_to_buy' => 'decimal:4',
+        'price_to_sell' => 'decimal:4'
     ];
 
     public function currency()

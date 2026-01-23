@@ -20,6 +20,10 @@ class ContactInfoResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
     protected static ?string $navigationLabel = 'Контактна Інформація';
 
+    protected static ?string $modelLabel = 'Контактна Інформація';
+
+    protected static ?string $pluralModelLabel = 'Контактна Інформація';
+
     protected static ?int $navigationSort = 100;
 
     public static function form(Form $form): Form
