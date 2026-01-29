@@ -60,7 +60,7 @@ class CustomersResource extends Resource
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->label('Дата народження')
                     ->displayFormat('Y-m-d'),
-                Forms\Components\TextArea::make('note')
+                Forms\Components\Textarea::make('note')
                     ->label('Примітка')
                     ->columnSpanFull(),
 
