@@ -4,7 +4,7 @@
 
  @section('content')
     <div class="max-w-4xl mx-auto">
-        <div class="bg-[#282741] rounded-2xl shadow-xl p-4 md:p-8">
+        <div class="bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс валют</h1>
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="mt-8 bg-[#282741] rounded-2xl shadow-xl p-4 md:p-8">
+        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс конвертації</h1>

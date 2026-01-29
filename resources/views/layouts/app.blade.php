@@ -32,7 +32,7 @@
     <title>Cash47 — Обмін валют Мукачево</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-[url('/images/cash_background_enhanced.png')] bg-cover bg-center bg-fixed">
+<body class="font-sans antialiased  bg-cover bg-center bg-fixed" style="background-image: url('/images/background_new.jpg');">
     @include('layouts.header')
     <main class="container mx-auto px-4 py-8">
         @yield('content')
