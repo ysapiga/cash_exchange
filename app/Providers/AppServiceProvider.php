@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ContactRequest;
+use App\Observers\ContactRequestObserver;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Customer;
 use App\Observers\CustomerObserver;
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         URL::forceScheme('https');
         Customer::observe(CustomerObserver::class);
+        ContactRequest::observe(ContactRequestObserver::class);
 
     }
 }
