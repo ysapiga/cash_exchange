@@ -59,7 +59,9 @@ class CustomersResource extends Resource
                     ->email(),
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->label('Дата народження')
-                    ->displayFormat('Y-m-d')
+                    ->displayFormat('Y-m-d'),
+                Forms\Components\TextArea::make('note')
+                    ->label('Примітка')
                     ->columnSpanFull(),
 
             ]);
@@ -78,6 +80,7 @@ class CustomersResource extends Resource
                     ->label('Дата народження')
                     ->date('Y-m-d') // тут формат дати
                     ->sortable(),
+                TextColumn::make('note')->label('Примітка'),
             ])
             ->filters([
                 //
