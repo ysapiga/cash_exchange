@@ -1,8 +1,8 @@
 <header class="bg-[#262b3b] shadow-sm sticky top-0 z-50">
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-25">
-            <div class="w-30 h-28 rounded-full overflow-hidden flex items-center justify-center mt-4">
-                <img src="{{ asset('images/cash_new.png') }}" alt="Cash" class="w-56 h-61 object-cover -translate-x-0.1 -translate-y-0.1">
+            <div class="lg:scale-[1.4] lg:translate-y-[20%] w-34 h-35 lgw-34 lgh-35 flex items-center mt-7">
+                <img src="{{ asset('images/cash_new_without_background.png') }}" alt="Cash" class="w-34 h-35 lgw-34 lgh-35">
             </div>
             <button onclick="openModal()" class="bg-[#5F963B] text-white px-6 py-2 rounded-lg hover:bg-[#8aa336] transition-all duration-300 md:h-auto h-11 w-40 md:w-auto flex items-center justify-center text-center">
                 Замовити
