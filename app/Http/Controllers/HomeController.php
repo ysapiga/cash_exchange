@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CurrencyRate;
 use App\Models\ConversionRate;
-use App\Models\ContactInfo;
+use App\Models\ExchangePoint;
+use App\Models\SocialLink;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -28,8 +29,9 @@ class HomeController extends Controller
             ->orderBy('position', 'asc')
             ->get();
 
-        $contactInfo = ContactInfo::first();
+        $exchangePoints = ExchangePoint::where('is_active', true)->get();
+        $socialLinks = SocialLink::first();
 
-        return view('home', compact('rates', 'conversionRates', 'contactInfo'));
+        return view('home', compact('rates', 'conversionRates', 'exchangePoints', 'socialLinks'));
     }
 }

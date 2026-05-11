@@ -84,16 +84,25 @@
             </div>
         </div>
 
-        <div class="mt-8 bg-[#282741] rounded-2xl shadow-xl overflow-hidden">
-            <iframe title="map"
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{$contactInfo?->coordinates}}&zoom=15"
-                width="100%"
-                height="450"
-                style="border:0;"
-                allowfullscreen=""
-                loading="lazy">
-            </iframe>
+        @foreach($exchangePoints as $point)
+        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-white">{{ $point->name }}</h2>
+                <p class="text-gray-400 mt-1">{{ $point->address }}</p>
+                <p class="text-gray-400">{{ $point->telephone }}</p>
+            </div>
+            <div class="rounded-xl overflow-hidden">
+                <iframe title="{{ $point->name }}"
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ urlencode($point->coordinates) }}&zoom=15"
+                    width="100%"
+                    height="350"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+            </div>
         </div>
+        @endforeach
     </div>
 @endsection
 
