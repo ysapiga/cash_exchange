@@ -31,6 +31,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cash47 — Обмін валют Мукачево</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body class="font-sans antialiased  bg-cover bg-center bg-fixed" style="background-image: url('/images/background_new.jpg');">
     @include('layouts.header')

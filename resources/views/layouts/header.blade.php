@@ -12,7 +12,7 @@
 </header>
 
 <!-- Модальне вікно -->
-<div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+<div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[9999]">
     <div class="bg-[#262b3b] rounded-xl p-6 w-full max-w-md mx-4">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-white">Замовити дзвінок</h2>
@@ -43,11 +43,17 @@
     function openModal() {
         document.getElementById('contactModal').classList.remove('hidden');
         document.getElementById('contactModal').classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        var map = document.getElementById('exchange-map');
+        if (map) map.style.visibility = 'hidden';
     }
 
     function closeModal() {
         document.getElementById('contactModal').classList.add('hidden');
         document.getElementById('contactModal').classList.remove('flex');
+        document.body.style.overflow = '';
+        var map = document.getElementById('exchange-map');
+        if (map) map.style.visibility = 'visible';
     }
 
     // Закриття модального вікна при кліку поза ним

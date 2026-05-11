@@ -32,6 +32,13 @@ class HomeController extends Controller
         $exchangePoints = ExchangePoint::where('is_active', true)->get();
         $socialLinks = SocialLink::first();
 
-        return view('home', compact('rates', 'conversionRates', 'exchangePoints', 'socialLinks'));
+        $exchangePointsMap = $exchangePoints->map(fn($p) => [
+            'name'      => $p->name,
+            'address'   => $p->address,
+            'telephone' => $p->telephone,
+            'coords'    => array_map('floatval', explode(',', $p->coordinates)),
+        ]);
+
+        return view('home', compact('rates', 'conversionRates', 'exchangePoints', 'socialLinks', 'exchangePointsMap'));
     }
 }

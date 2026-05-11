@@ -84,25 +84,44 @@
             </div>
         </div>
 
-        @foreach($exchangePoints as $point)
-        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
-            <div class="mb-4">
-                <h2 class="text-xl font-bold text-white">{{ $point->name }}</h2>
-                <p class="text-gray-400 mt-1">{{ $point->address }}</p>
-                <p class="text-gray-400">{{ $point->telephone }}</p>
-            </div>
-            <div class="rounded-xl overflow-hidden">
-                <iframe title="{{ $point->name }}"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ urlencode($point->coordinates) }}&zoom=15"
-                    width="100%"
-                    height="350"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy">
-                </iframe>
-            </div>
+        @if($exchangePoints->isNotEmpty())
+        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl overflow-hidden" style="isolation: isolate;">
+            <div id="exchange-map" style="height: 450px;"></div>
         </div>
-        @endforeach
+        <script>
+            (function () {
+                var points = @json($exchangePointsMap);
+
+                var map = L.map('exchange-map');
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    maxZoom: 19,
+                }).addTo(map);
+
+                var bounds = [];
+
+                points.forEach(function (point) {
+                    var latlng = [point.coords[0], point.coords[1]];
+                    bounds.push(latlng);
+
+                    L.marker(latlng)
+                        .addTo(map)
+                        .bindPopup(
+                            '<strong>' + point.name + '</strong><br>' +
+                            point.address + '<br>' +
+                            '<a href="tel:' + point.telephone + '">' + point.telephone + '</a>'
+                        );
+                });
+
+                if (bounds.length === 1) {
+                    map.setView(bounds[0], 15);
+                } else {
+                    map.fitBounds(bounds, { padding: [40, 40] });
+                }
+            })();
+        </script>
+        @endif
     </div>
 @endsection
 
