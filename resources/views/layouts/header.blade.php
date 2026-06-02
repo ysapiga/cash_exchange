@@ -1,8 +1,8 @@
 <header class="bg-[#262b3b]/95 backdrop-blur-sm shadow-lg sticky top-0 z-50 border-b border-[#5F963B]/30">
     <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-20">
-            <div class="lg:scale-[1.3] lg:translate-y-[28%] translate-y-[10%] flex items-center">
-                <img src="{{ asset('images/cash_new_without_background.png') }}" alt="Cash47" class="w-32 h-auto">
+        <div class="flex items-center justify-between h-[79px] lg:h-[86px]">
+            <div class="pt-1 lg:scale-[1.3] lg:translate-y-[17%] flex items-start self-start">
+                <img src="{{ asset('images/cash_new_without_background.png') }}" alt="Cash47" class="w-[130px] lg:w-32 h-auto">
             </div>
             <button onclick="openModal()" class="group relative bg-[#5F963B] text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-[#6faa45] active:scale-95 transition-all duration-200 shadow-lg shadow-[#5F963B]/25 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
