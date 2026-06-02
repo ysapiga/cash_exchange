@@ -12,10 +12,6 @@
                     <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс валют</h1>
                     <p class="text-gray-400 text-sm mt-1">Актуальний курс обміну валют на сьогодні</p>
                 </div>
-                <div class="flex items-center gap-1.5 bg-[#5F963B]/15 text-[#7dc44a] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#5F963B]/30">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#7dc44a] animate-pulse"></span>
-                    Онлайн
-                </div>
             </div>
 
             <div>
