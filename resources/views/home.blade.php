@@ -2,39 +2,58 @@
 
 @extends('layouts.app')
 
- @section('content')
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+@section('content')
+    <div class="max-w-4xl mx-auto space-y-6">
+
+        {{-- Currency Rates --}}
+        <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
+            <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс валют</h1>
-                    <p class="text-gray-400">Актуальний курс обміну валют на сьогодні</p>
+                    <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс валют</h1>
+                    <p class="text-gray-400 text-sm mt-1">Актуальний курс обміну валют на сьогодні</p>
+                </div>
+                <div class="flex items-center gap-1.5 bg-[#5F963B]/15 text-[#7dc44a] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#5F963B]/30">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#7dc44a] animate-pulse"></span>
+                    Онлайн
                 </div>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="text-left py-4 px-2 md:px-4 text-gray-400 font-medium">Валюта</th>
-                            <th class="text-right py-4 px-2 md:px-4 text-gray-400 font-medium">Купити</th>
-                            <th class="text-right py-4 px-2 md:px-4 text-gray-400 font-medium">Продати</th>
+                        <tr class="border-y border-gray-700/60 bg-gray-800/30">
+                            <th class="text-left py-3 px-5 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Валюта</th>
+                            <th class="text-right py-3 px-5 md:px-8">
+                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                                    Купити
+                                </span>
+                            </th>
+                            <th class="text-right py-3 px-5 md:px-8">
+                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                                    Продати
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($rates as $rate)
-                        <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors duration-200">
-                            <td class="py-4 px-2 md:px-4">
-                                <div class="flex items-center">
-                                    <span class="text-lg font-semibold text-white">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</span>
-
-                                </div>
+                        <tr class="border-b border-gray-700/40 hover:bg-[#5F963B]/5 transition-colors duration-150 group">
+                            <td class="py-4 px-5 md:px-8">
+                                <span class="text-base font-semibold text-white group-hover:text-gray-100 transition-colors">
+                                    {{ $rate->currency->icon }} {{ $rate->currency->currency_code }}
+                                </span>
                             </td>
-                            <td class="py-4 px-2 md:px-4 text-right">
-                                <span class="text-lg font-semibold text-emerald-400">{{ rtrim(rtrim(number_format($rate->price_to_buy, 10, '.', ''), '0'), '.') }}</span>
+                            <td class="py-4 px-5 md:px-8 text-right">
+                                <span class="text-lg font-bold text-emerald-400 tabular-nums">
+                                    {{ rtrim(rtrim(number_format($rate->price_to_buy, 10, '.', ''), '0'), '.') }}
+                                </span>
                             </td>
-                            <td class="py-4 px-2 md:px-4 text-right">
-                                <span class="text-lg font-semibold text-red-400">{{ rtrim(rtrim(number_format($rate->price_to_sell, 10, '.', ''), '0'), '.') }}</span>
+                            <td class="py-4 px-5 md:px-8 text-right">
+                                <span class="text-lg font-bold text-red-400 tabular-nums">
+                                    {{ rtrim(rtrim(number_format($rate->price_to_sell, 10, '.', ''), '0'), '.') }}
+                                </span>
                             </td>
                         </tr>
                         @endforeach
@@ -43,39 +62,39 @@
             </div>
         </div>
 
-        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl p-4 md:p-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Курс конвертації</h1>
-                    <p class="text-gray-400">Курс конвертації між валютами</p>
-                </div>
+        {{-- Conversion Rates --}}
+        <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
+            <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5">
+                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс конвертації</h2>
+                <p class="text-gray-400 text-sm mt-1">Курс конвертації між валютами</p>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-gray-700">
-                            <th class="text-center py-4 px-2 md:px-4 text-gray-400 font-medium">Конвертація</th>
-                            <th class="text-center py-4 px-2 md:px-4 text-gray-400 font-medium">Курс</th>
+                        <tr class="border-y border-gray-700/60 bg-gray-800/30">
+                            <th class="text-center py-3 px-5 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Конвертація</th>
+                            <th class="text-center py-3 px-5 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Курс</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($conversionRates as $rate)
-                        <tr class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors duration-200">
-                            <td class="py-4 px-2 md:px-4">
-                                <div class="flex items-center justify-center">
-                                    <div class="flex items-center">
-                                        <span class="text-lg font-semibold text-white">{{ $rate->currencyFrom->icon }} {{ $rate->currencyFrom->currency_code }}</span>
-                                        <svg class="w-6 h-6 mx-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        <tr class="border-b border-gray-700/40 hover:bg-[#5F963B]/5 transition-colors duration-150">
+                            <td class="py-4 px-5 md:px-8">
+                                <div class="flex items-center justify-center gap-2">
+                                    <span class="text-base font-semibold text-white">{{ $rate->currencyFrom->icon }} {{ $rate->currencyFrom->currency_code }}</span>
+                                    <div class="flex items-center gap-0.5 text-[#5F963B]">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                                         </svg>
-                                        <span class="text-lg font-semibold text-white">{{ $rate->currencyTo->icon }} {{ $rate->currencyTo->currency_code }}</span>
                                     </div>
-
+                                    <span class="text-base font-semibold text-white">{{ $rate->currencyTo->icon }} {{ $rate->currencyTo->currency_code }}</span>
                                 </div>
                             </td>
-                            <td class="py-4 px-2 md:px-4 text-center">
-                                <span class="text-lg font-semibold text-emerald-400">{{ rtrim(rtrim(number_format($rate->conversion_rate, 10, '.', ''), '0'), '.') }}</span>
+                            <td class="py-4 px-5 md:px-8 text-center">
+                                <span class="text-lg font-bold text-emerald-400 tabular-nums">
+                                    {{ rtrim(rtrim(number_format($rate->conversion_rate, 10, '.', ''), '0'), '.') }}
+                                </span>
                             </td>
                         </tr>
                         @endforeach
@@ -84,9 +103,14 @@
             </div>
         </div>
 
+        {{-- Map --}}
         @if($exchangePoints->isNotEmpty())
-        <div class="mt-8 bg-[#262b3b] rounded-2xl shadow-xl overflow-hidden" style="isolation: isolate;">
-            <div id="exchange-map" style="height: 450px;"></div>
+        <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
+            <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5">
+                <h2 class="text-xl font-bold text-white tracking-tight">Пункти обміну</h2>
+                <p class="text-gray-400 text-sm mt-1">Знайдіть нас на карті</p>
+            </div>
+            <div id="exchange-map" style="height: 420px;"></div>
         </div>
         <script>
             (function () {
@@ -122,6 +146,6 @@
             })();
         </script>
         @endif
+
     </div>
 @endsection
-

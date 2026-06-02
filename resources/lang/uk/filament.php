@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'name' => 'Cash47 (Панель керування)',
     'resources' => [
         'customers' => [
             'plural' => 'Клієнти',
