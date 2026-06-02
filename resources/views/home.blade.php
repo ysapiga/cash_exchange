@@ -9,29 +9,22 @@
         <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
             <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс валют</h1>
-                    <p class="text-gray-400 text-sm mt-1">Актуальний курс обміну валют на сьогодні</p>
-                </div>
-                <div class="flex items-center gap-1.5 bg-[#5F963B]/15 text-[#7dc44a] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#5F963B]/30">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#7dc44a] animate-pulse"></span>
-                    Онлайн
+                    <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс обміну валют на сьогодні</h1>
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
+            <div>
                 <table class="w-full">
                     <thead>
                         <tr class="border-y border-gray-700/60 bg-gray-800/30">
-                            <th class="text-left py-3 px-5 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Валюта</th>
-                            <th class="text-right py-3 px-5 md:px-8">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                            <th class="text-left py-3 px-4 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Валюта</th>
+                            <th class="text-right py-3 px-4 md:px-8">
+                                <span class="inline-flex items-center text-xs font-semibold uppercase bg-emerald-500/10 text-emerald-400 px-2 md:px-3 py-1 rounded-full border border-emerald-500/20 whitespace-nowrap">
                                     Купити
                                 </span>
                             </th>
-                            <th class="text-right py-3 px-5 md:px-8">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                            <th class="text-right py-3 px-4 md:px-8">
+                                <span class="inline-flex items-center text-xs font-semibold uppercase bg-red-500/10 text-red-400 px-2 md:px-3 py-1 rounded-full border border-red-500/20 whitespace-nowrap">
                                     Продати
                                 </span>
                             </th>
@@ -40,17 +33,17 @@
                     <tbody>
                         @foreach($rates as $rate)
                         <tr class="border-b border-gray-700/40 hover:bg-[#5F963B]/5 transition-colors duration-150 group">
-                            <td class="py-4 px-5 md:px-8">
+                            <td class="py-4 px-4 md:px-8">
                                 <span class="text-base font-semibold text-white group-hover:text-gray-100 transition-colors">
                                     {{ $rate->currency->icon }} {{ $rate->currency->currency_code }}
                                 </span>
                             </td>
-                            <td class="py-4 px-5 md:px-8 text-right">
+                            <td class="py-4 px-4 md:px-8 text-right">
                                 <span class="text-lg font-bold text-emerald-400 tabular-nums">
                                     {{ rtrim(rtrim(number_format($rate->price_to_buy, 10, '.', ''), '0'), '.') }}
                                 </span>
                             </td>
-                            <td class="py-4 px-5 md:px-8 text-right">
+                            <td class="py-4 px-4 md:px-8 text-right">
                                 <span class="text-lg font-bold text-red-400 tabular-nums">
                                     {{ rtrim(rtrim(number_format($rate->price_to_sell, 10, '.', ''), '0'), '.') }}
                                 </span>
@@ -201,8 +194,7 @@
         {{-- Conversion Rates --}}
         <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
             <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5">
-                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс конвертації</h2>
-                <p class="text-gray-400 text-sm mt-1">Курс конвертації між валютами</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Курс конвертації валют</h2>
             </div>
 
             <div class="overflow-x-auto">

@@ -37,7 +37,7 @@
 <body class="font-sans antialiased bg-cover bg-center bg-fixed min-h-screen" style="background-image: url('/images/background_new.jpg');">
     <div class="min-h-screen bg-[#1a1e2b]/60 flex flex-col">
     @include('layouts.header')
-    <main class="container mx-auto px-4 py-8 flex-1">
+    <main class="container mx-auto px-4 pt-[75px] lg:pt-10 pb-8 flex-1">
         @yield('content')
     </main>
     @include('layouts.footer')
