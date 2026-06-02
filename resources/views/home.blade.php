@@ -18,20 +18,20 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
+            <div>
                 <table class="w-full">
                     <thead>
                         <tr class="border-y border-gray-700/60 bg-gray-800/30">
-                            <th class="text-left py-3 px-5 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Валюта</th>
-                            <th class="text-right py-3 px-5 md:px-8">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                            <th class="text-left py-3 px-4 md:px-8 text-gray-400 font-medium text-sm uppercase tracking-wider">Валюта</th>
+                            <th class="text-right py-3 px-4 md:px-8">
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold uppercase bg-emerald-500/10 text-emerald-400 px-2 md:px-3 py-1 rounded-full border border-emerald-500/20 whitespace-nowrap">
+                                    <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
                                     Купити
                                 </span>
                             </th>
-                            <th class="text-right py-3 px-5 md:px-8">
-                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                            <th class="text-right py-3 px-4 md:px-8">
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold uppercase bg-red-500/10 text-red-400 px-2 md:px-3 py-1 rounded-full border border-red-500/20 whitespace-nowrap">
+                                    <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
                                     Продати
                                 </span>
                             </th>
@@ -40,17 +40,17 @@
                     <tbody>
                         @foreach($rates as $rate)
                         <tr class="border-b border-gray-700/40 hover:bg-[#5F963B]/5 transition-colors duration-150 group">
-                            <td class="py-4 px-5 md:px-8">
+                            <td class="py-4 px-4 md:px-8">
                                 <span class="text-base font-semibold text-white group-hover:text-gray-100 transition-colors">
                                     {{ $rate->currency->icon }} {{ $rate->currency->currency_code }}
                                 </span>
                             </td>
-                            <td class="py-4 px-5 md:px-8 text-right">
+                            <td class="py-4 px-4 md:px-8 text-right">
                                 <span class="text-lg font-bold text-emerald-400 tabular-nums">
                                     {{ rtrim(rtrim(number_format($rate->price_to_buy, 10, '.', ''), '0'), '.') }}
                                 </span>
                             </td>
-                            <td class="py-4 px-5 md:px-8 text-right">
+                            <td class="py-4 px-4 md:px-8 text-right">
                                 <span class="text-lg font-bold text-red-400 tabular-nums">
                                     {{ rtrim(rtrim(number_format($rate->price_to_sell, 10, '.', ''), '0'), '.') }}
                                 </span>
