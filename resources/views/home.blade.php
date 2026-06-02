@@ -56,62 +56,105 @@
         </div>
 
         {{-- Calculator --}}
-        <div class="bg-[#262b3b] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
-            <div class="border-l-4 border-[#5F963B] px-5 md:px-8 py-5">
-                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Калькулятор</h2>
-                <p class="text-gray-400 text-sm mt-1">Розрахуйте суму обміну</p>
+        <div class="bg-[#1e2230] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
+            <div class="px-5 md:px-8 pt-6 pb-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Калькулятор валют</h2>
+                <p class="text-gray-400 text-sm mt-1">Розрахуйте суму обміну за поточним курсом</p>
             </div>
-            <div class="px-5 md:px-8 py-6">
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
+            <div class="px-5 md:px-8 pb-6 pt-4">
+
+                {{-- Input row --}}
+                <div class="flex flex-col sm:flex-row items-stretch gap-3">
                     {{-- From --}}
+                    @php $calcFromDefault = $rates->isNotEmpty() ? $rates->first()->currency->icon . ' ' . $rates->first()->currency->currency_code : '🇺🇦 UAH'; @endphp
                     <div class="flex-1">
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Маю</label>
-                        <div class="flex rounded-xl overflow-hidden border border-gray-600/60 focus-within:border-[#5F963B] transition-colors duration-200">
-                            <input
-                                type="number"
-                                id="calc-amount"
-                                placeholder="0"
-                                min="0"
-                                class="flex-1 min-w-0 bg-gray-800/80 text-white text-lg font-semibold px-4 py-3 focus:outline-none placeholder-gray-600 tabular-nums"
-                            >
-                            <select id="calc-from" class="bg-gray-700/80 text-white font-semibold px-3 py-3 focus:outline-none border-l border-gray-600/60 cursor-pointer hover:bg-gray-700 transition-colors">
-                                <option value="UAH">UAH</option>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Віддаєте</label>
+                        <div class="relative">
+                            <div class="flex rounded-xl border border-gray-600/50 bg-[#262b3b] focus-within:border-[#5F963B]/70 transition-colors duration-200 overflow-hidden">
+                                <input
+                                    type="number"
+                                    id="calc-amount"
+                                    value="1000"
+                                    min="0"
+                                    class="flex-1 min-w-0 bg-transparent text-white text-2xl font-bold px-4 py-3.5 focus:outline-none placeholder-gray-600 tabular-nums w-0"
+                                >
+                                <div class="border-l border-gray-600/50">
+                                    <select id="calc-from" class="sr-only">
+                                        <option value="UAH">🇺🇦 UAH</option>
+                                        @foreach($rates as $rate)
+                                        <option value="{{ $rate->currency->currency_code }}" @if($loop->first) selected @endif>{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" id="calc-from-btn"
+                                            onclick="toggleCalcDropdown('calc-from')"
+                                            class="flex items-center gap-1.5 px-3 py-3.5 text-white font-semibold text-sm whitespace-nowrap h-full">
+                                        <span id="calc-from-display">{{ $calcFromDefault }}</span>
+                                        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="calc-from-panel" class="hidden absolute right-0 top-full mt-1 bg-[#2d3347] border border-gray-600/50 rounded-xl shadow-2xl min-w-[130px] z-50 overflow-hidden">
+                                <button type="button" onclick="selectCalcOption('calc-from', 'UAH', '🇺🇦 UAH')"
+                                        class="w-full text-left px-4 py-2.5 text-sm text-white hover:bg-[#5F963B]/20 whitespace-nowrap">🇺🇦 UAH</button>
                                 @foreach($rates as $rate)
-                                <option value="{{ $rate->currency->currency_code }}">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</option>
+                                <button type="button" onclick="selectCalcOption('calc-from', '{{ $rate->currency->currency_code }}', '{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}')"
+                                        class="w-full text-left px-4 py-2.5 text-sm text-white hover:bg-[#5F963B]/20 whitespace-nowrap">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</button>
                                 @endforeach
-                            </select>
+                            </div>
                         </div>
                     </div>
 
-                    {{-- Swap --}}
-                    <button id="calc-swap" title="Поміняти місцями" class="self-center sm:mb-0 mt-1 w-10 h-10 rounded-xl bg-gray-700/60 hover:bg-[#5F963B]/30 border border-gray-600/60 hover:border-[#5F963B]/50 text-gray-400 hover:text-[#7dc44a] flex items-center justify-center transition-all duration-200 shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-                        </svg>
-                    </button>
-
                     {{-- To --}}
                     <div class="flex-1">
-                        <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Отримаю</label>
-                        <div class="flex rounded-xl overflow-hidden border border-gray-600/60 bg-gray-800/40">
-                            <input
-                                type="text"
-                                id="calc-result"
-                                readonly
-                                placeholder="—"
-                                class="flex-1 min-w-0 bg-transparent text-emerald-400 text-lg font-bold px-4 py-3 focus:outline-none placeholder-gray-600 tabular-nums cursor-default"
-                            >
-                            <select id="calc-to" class="bg-gray-700/80 text-white font-semibold px-3 py-3 focus:outline-none border-l border-gray-600/60 cursor-pointer hover:bg-gray-700 transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Отримуєте</label>
+                        <div class="relative">
+                            <div class="flex rounded-xl border border-gray-600/50 bg-[#262b3b] overflow-hidden">
+                                <input
+                                    type="text"
+                                    id="calc-result"
+                                    readonly
+                                    placeholder="—"
+                                    class="flex-1 min-w-0 bg-transparent text-white text-2xl font-bold px-4 py-3.5 focus:outline-none placeholder-gray-600 tabular-nums cursor-default w-0"
+                                >
+                                <div class="border-l border-gray-600/50">
+                                    <select id="calc-to" class="sr-only">
+                                        @foreach($rates as $rate)
+                                        <option value="{{ $rate->currency->currency_code }}">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</option>
+                                        @endforeach
+                                        <option value="UAH" selected>🇺🇦 UAH</option>
+                                    </select>
+                                    <button type="button" id="calc-to-btn"
+                                            onclick="toggleCalcDropdown('calc-to')"
+                                            class="flex items-center gap-1.5 px-3 py-3.5 text-white font-semibold text-sm whitespace-nowrap h-full">
+                                        <span id="calc-to-display">🇺🇦 UAH</span>
+                                        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="calc-to-panel" class="hidden absolute right-0 top-full mt-1 bg-[#2d3347] border border-gray-600/50 rounded-xl shadow-2xl min-w-[130px] z-50 overflow-hidden">
                                 @foreach($rates as $rate)
-                                <option value="{{ $rate->currency->currency_code }}">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</option>
+                                <button type="button" onclick="selectCalcOption('calc-to', '{{ $rate->currency->currency_code }}', '{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}')"
+                                        class="w-full text-left px-4 py-2.5 text-sm text-white hover:bg-[#5F963B]/20 whitespace-nowrap">{{ $rate->currency->icon }} {{ $rate->currency->currency_code }}</button>
                                 @endforeach
-                                <option value="UAH">UAH</option>
-                            </select>
+                                <button type="button" onclick="selectCalcOption('calc-to', 'UAH', '🇺🇦 UAH')"
+                                        class="w-full text-left px-4 py-2.5 text-sm text-white hover:bg-[#5F963B]/20 whitespace-nowrap">🇺🇦 UAH</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <p id="calc-hint" class="text-xs text-gray-500 mt-3"></p>
+                {{-- Rate info bar --}}
+                <div class="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 rounded-xl bg-[#262b3b] border border-gray-700/40 px-4 py-3">
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                        <svg class="w-5 h-5 text-[#7dc44a] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        <span id="calc-rate-text">—</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-400">
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+                        <span id="calc-updated">Оновлено: —</span>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -119,9 +162,11 @@
         (function () {
             @php
                 $calcRates = $rates->map(fn($r) => [
-                    'code' => $r->currency->currency_code,
-                    'buy'  => (float) $r->price_to_buy,
-                    'sell' => (float) $r->price_to_sell,
+                    'code'    => $r->currency->currency_code,
+                    'icon'    => $r->currency->icon,
+                    'buy'     => (float) $r->price_to_buy,
+                    'sell'    => (float) $r->price_to_sell,
+                    'updated' => $r->updated_at ? $r->updated_at->format('d.m.Y H:i') : null,
                 ])->values();
             @endphp
             var ratesData = @json($calcRates);
@@ -129,12 +174,17 @@
             var rateMap = {};
             ratesData.forEach(function (r) { rateMap[r.code] = r; });
 
-            var amountInput  = document.getElementById('calc-amount');
-            var resultInput  = document.getElementById('calc-result');
-            var fromSelect   = document.getElementById('calc-from');
-            var toSelect     = document.getElementById('calc-to');
-            var swapBtn      = document.getElementById('calc-swap');
-            var hint         = document.getElementById('calc-hint');
+            var amountInput = document.getElementById('calc-amount');
+            var resultInput = document.getElementById('calc-result');
+            var fromSelect  = document.getElementById('calc-from');
+            var toSelect    = document.getElementById('calc-to');
+            var rateText    = document.getElementById('calc-rate-text');
+            var updatedText = document.getElementById('calc-updated');
+
+            function formatNum(n) {
+                if (n === null || isNaN(n)) return '—';
+                return new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 4 }).format(n);
+            }
 
             function recalc() {
                 var amount = parseFloat(amountInput.value);
@@ -142,53 +192,68 @@
                 var to     = toSelect.value;
 
                 if (!amount || amount <= 0 || from === to) {
-                    resultInput.value = '';
-                    hint.textContent  = '';
+                    resultInput.value  = '';
+                    rateText.textContent = '—';
+                    updatedText.textContent = 'Оновлено: —';
                     return;
                 }
 
                 var result = null;
-                var hintText = '';
+                var rateLabel = '';
+                var updatedAt = null;
 
                 if (from === 'UAH' && rateMap[to]) {
-                    // Buying foreign currency: exchange sells to you at sell rate
-                    result   = amount / rateMap[to].sell;
-                    hintText = 'Курс продажу: 1 ' + to + ' = ' + rateMap[to].sell.toFixed(4) + ' UAH';
+                    result    = amount / rateMap[to].sell;
+                    rateLabel = 'Курс: 1 ' + to + ' = ' + rateMap[to].sell + ' UAH';
+                    updatedAt = rateMap[to].updated;
                 } else if (to === 'UAH' && rateMap[from]) {
-                    // Selling foreign currency: exchange buys from you at buy rate
-                    result   = amount * rateMap[from].buy;
-                    hintText = 'Курс купівлі: 1 ' + from + ' = ' + rateMap[from].buy.toFixed(4) + ' UAH';
+                    result    = amount * rateMap[from].buy;
+                    rateLabel = 'Курс: 1 ' + from + ' = ' + rateMap[from].buy + ' UAH';
+                    updatedAt = rateMap[from].updated;
                 } else if (rateMap[from] && rateMap[to]) {
-                    // Cross-rate via UAH
-                    var uah  = amount * rateMap[from].buy;
-                    result   = uah / rateMap[to].sell;
-                    hintText = 'Крос-курс через UAH';
+                    var uah   = amount * rateMap[from].buy;
+                    result    = uah / rateMap[to].sell;
+                    rateLabel = 'Крос-курс через UAH';
+                    updatedAt = rateMap[from].updated;
                 }
 
-                if (result !== null) {
-                    resultInput.value = result.toFixed(4).replace(/\.?0+$/, '') || '0';
-                } else {
-                    resultInput.value = '';
-                }
-                hint.textContent = hintText;
+                resultInput.value       = result !== null ? formatNum(result) : '';
+                rateText.textContent    = rateLabel || '—';
+                updatedText.textContent = updatedAt ? 'Оновлено: ' + updatedAt : 'Оновлено: —';
             }
 
             amountInput.addEventListener('input', recalc);
             fromSelect.addEventListener('change', recalc);
             toSelect.addEventListener('change', recalc);
 
-            swapBtn.addEventListener('click', function () {
-                var tmp = fromSelect.value;
-                fromSelect.value = toSelect.value;
-                toSelect.value   = tmp;
 
-                // Swap amount ↔ result
-                var tmpVal = amountInput.value;
-                amountInput.value = resultInput.value.replace(/[^\d.]/g, '');
-                // Will be recalculated:
-                recalc();
-            });
+            recalc();
         })();
+
+        function toggleCalcDropdown(id) {
+            var panel = document.getElementById(id + '-panel');
+            ['calc-from', 'calc-to'].forEach(function(p) {
+                if (p !== id) document.getElementById(p + '-panel').classList.add('hidden');
+            });
+            panel.classList.toggle('hidden');
+        }
+
+        function selectCalcOption(id, value, display) {
+            var select = document.getElementById(id);
+            select.value = value;
+            document.getElementById(id + '-display').textContent = display;
+            document.getElementById(id + '-panel').classList.add('hidden');
+            select.dispatchEvent(new Event('change'));
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#calc-from-btn') && !e.target.closest('#calc-from-panel')) {
+                document.getElementById('calc-from-panel').classList.add('hidden');
+            }
+            if (!e.target.closest('#calc-to-btn') && !e.target.closest('#calc-to-panel')) {
+                document.getElementById('calc-to-panel').classList.add('hidden');
+            }
+        });
         </script>
 
         {{-- Conversion Rates --}}
