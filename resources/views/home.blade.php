@@ -56,7 +56,7 @@
         </div>
 
         {{-- Calculator --}}
-        <div class="bg-[#1e2230] rounded-2xl shadow-2xl overflow-hidden border border-gray-700/40">
+        <div class="bg-[#1e2230] rounded-2xl shadow-2xl border border-gray-700/40">
             <div class="px-5 md:px-8 pt-6 pb-2">
                 <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Калькулятор валют</h2>
                 <p class="text-gray-400 text-sm mt-1">Розрахуйте суму обміну за поточним курсом</p>
