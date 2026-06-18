@@ -177,6 +177,11 @@
                 addTarget(c.from, c.to, { type: 'direct', rate: c.rate, updated: c.updated });
             });
 
+            // UAH value of each currency (buy price), used to decide which
+            // currency in a direct pair is the "larger" one
+            var uahRate = {};
+            ratesData.forEach(function (r) { uahRate[r.code] = r.buy; });
+
             var fromCodes = Object.keys(targets);
 
             var amountInput = document.getElementById('calc-amount');
@@ -244,8 +249,16 @@
                     result    = amount * entry.rate;
                     rateLabel = 'Курс: 1 ' + from + ' = ' + entry.rate + ' UAH';
                 } else {
-                    result    = amount * entry.rate;
-                    rateLabel = 'Курс: 1 ' + from + ' = ' + entry.rate + ' ' + to;
+                    // Rate is stored as: how many units of the smaller currency
+                    // equal 1 unit of the larger one. Larger = higher UAH value.
+                    var fromIsLarger = (uahRate[from] || 0) >= (uahRate[to] || 0);
+                    if (fromIsLarger) {
+                        result    = amount * entry.rate;
+                        rateLabel = 'Курс: 1 ' + from + ' = ' + entry.rate + ' ' + to;
+                    } else {
+                        result    = amount / entry.rate;
+                        rateLabel = 'Курс: 1 ' + to + ' = ' + entry.rate + ' ' + from;
+                    }
                 }
 
                 resultInput.value       = formatNum(result);
