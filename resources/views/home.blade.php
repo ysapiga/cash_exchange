@@ -142,7 +142,7 @@
                     'icon'    => $r->currency->icon,
                     'buy'     => (float) $r->price_to_buy,
                     'sell'    => (float) $r->price_to_sell,
-                    'updated' => $r->updated_at ? $r->updated_at->format('d.m.Y H:i') : null,
+                    'updated' => $r->updated_at ? $r->updated_at->timezone('Europe/Kyiv')->format('d.m.Y H:i') : null,
                 ])->values();
                 $calcConversions = $conversionRates->map(fn($c) => [
                     'from'     => $c->currencyFrom->currency_code,
@@ -150,7 +150,7 @@
                     'to'       => $c->currencyTo->currency_code,
                     'toIcon'   => $c->currencyTo->icon,
                     'rate'     => (float) $c->conversion_rate,
-                    'updated'  => $c->updated_at ? $c->updated_at->format('d.m.Y H:i') : null,
+                    'updated'  => $c->updated_at ? $c->updated_at->timezone('Europe/Kyiv')->format('d.m.Y H:i') : null,
                 ])->values();
             @endphp
             var ratesData   = @json($calcRates);
