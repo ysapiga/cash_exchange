@@ -72,10 +72,10 @@
                         <div class="relative">
                             <div class="flex rounded-xl border border-gray-600/50 bg-[#262b3b] focus-within:border-[#5F963B]/70 transition-colors duration-200 overflow-hidden">
                                 <input
-                                    type="number"
+                                    type="text"
+                                    inputmode="decimal"
                                     id="calc-amount"
                                     value="1000"
-                                    min="0"
                                     class="flex-1 min-w-0 bg-transparent text-white text-2xl font-bold px-4 py-3.5 focus:outline-none placeholder-gray-600 tabular-nums w-0"
                                 >
                                 <div class="border-l border-gray-600/50">
@@ -99,10 +99,10 @@
                             <div class="flex rounded-xl border border-gray-600/50 bg-[#262b3b] overflow-hidden">
                                 <input
                                     type="text"
+                                    inputmode="decimal"
                                     id="calc-result"
-                                    readonly
                                     placeholder="—"
-                                    class="flex-1 min-w-0 bg-transparent text-white text-2xl font-bold px-4 py-3.5 focus:outline-none placeholder-gray-600 tabular-nums cursor-default w-0"
+                                    class="flex-1 min-w-0 bg-transparent text-white text-2xl font-bold px-4 py-3.5 focus:outline-none placeholder-gray-600 tabular-nums w-0"
                                 >
                                 <div class="border-l border-gray-600/50">
                                     <select id="calc-to" class="sr-only"></select>
@@ -193,7 +193,14 @@
 
             function formatNum(n) {
                 if (n === null || isNaN(n)) return '—';
-                return new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 4 }).format(n);
+                return new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(n);
+            }
+
+            // Parse a user-typed amount, tolerating thousands spaces and comma decimals
+            function parseVal(str) {
+                if (!str) return NaN;
+                str = String(str).replace(/\s/g, '').replace(',', '.').replace(/[^0-9.]/g, '');
+                return parseFloat(str);
             }
 
             function optionLabel(code) {
@@ -228,45 +235,61 @@
                 renderOptions('calc-to', codes, selected);
             }
 
-            function recalc() {
-                var amount = parseFloat(amountInput.value);
-                var from   = fromSelect.value;
-                var to     = toSelect.value;
-                var entry  = (targets[from] || {})[to];
+            // Resolve the conversion between two currencies into a single
+            // multiplier `m` such that:  received = given * m  (given = received / m)
+            function getConversion(from, to) {
+                var entry = (targets[from] || {})[to];
+                if (!entry) return null;
 
-                if (!amount || amount <= 0 || !entry) {
-                    resultInput.value  = '';
-                    rateText.textContent = '—';
-                    updatedText.textContent = 'Оновлено: —';
-                    return;
-                }
-
-                var result, rateLabel;
+                var m, rateLabel;
                 if (entry.type === 'fromUah') {
-                    result    = amount / entry.rate;
+                    m         = 1 / entry.rate;
                     rateLabel = 'Курс: 1 ' + to + ' = ' + entry.rate + ' UAH';
                 } else if (entry.type === 'toUah') {
-                    result    = amount * entry.rate;
+                    m         = entry.rate;
                     rateLabel = 'Курс: 1 ' + from + ' = ' + entry.rate + ' UAH';
                 } else {
                     // Rate is stored as: how many units of the smaller currency
                     // equal 1 unit of the larger one. Larger = higher UAH value.
                     var fromIsLarger = (uahRate[from] || 0) >= (uahRate[to] || 0);
                     if (fromIsLarger) {
-                        result    = amount * entry.rate;
+                        m         = entry.rate;
                         rateLabel = 'Курс: 1 ' + from + ' = ' + entry.rate + ' ' + to;
                     } else {
-                        result    = amount / entry.rate;
+                        m         = 1 / entry.rate;
                         rateLabel = 'Курс: 1 ' + to + ' = ' + entry.rate + ' ' + from;
                     }
                 }
-
-                resultInput.value       = formatNum(result);
-                rateText.textContent    = rateLabel;
-                updatedText.textContent = entry.updated ? 'Оновлено: ' + entry.updated : 'Оновлено: —';
+                return { m: m, rateLabel: rateLabel, updated: entry.updated };
             }
 
-            amountInput.addEventListener('input', recalc);
+            // Which field the user typed in last decides the calculation direction
+            var lastEdited = 'amount';
+
+            function recalc() {
+                var conv = getConversion(fromSelect.value, toSelect.value);
+
+                if (!conv) {
+                    (lastEdited === 'amount' ? resultInput : amountInput).value = '';
+                    rateText.textContent    = '—';
+                    updatedText.textContent = 'Оновлено: —';
+                    return;
+                }
+
+                rateText.textContent    = conv.rateLabel;
+                updatedText.textContent = conv.updated ? 'Оновлено: ' + conv.updated : 'Оновлено: —';
+
+                if (lastEdited === 'result') {
+                    var received = parseVal(resultInput.value);
+                    amountInput.value = (received > 0) ? formatNum(received / conv.m) : '';
+                } else {
+                    var given = parseVal(amountInput.value);
+                    resultInput.value = (given > 0) ? formatNum(given * conv.m) : '';
+                }
+            }
+
+            amountInput.addEventListener('input', function () { lastEdited = 'amount'; recalc(); });
+            resultInput.addEventListener('input', function () { lastEdited = 'result'; recalc(); });
             fromSelect.addEventListener('change', function () { refreshToOptions(); recalc(); });
             toSelect.addEventListener('change', recalc);
 
