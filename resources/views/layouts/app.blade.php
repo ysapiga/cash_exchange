@@ -30,25 +30,31 @@
     <link rel="icon" type="image/png" href="{{ asset('images/ms-icon-70x70.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cash47 — Обмін валют Мукачево</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body class="font-sans antialiased bg-cover bg-center bg-fixed min-h-screen" style="background-image: url('/images/background_new.jpg');">
-    <div class="min-h-screen bg-[#1a1e2b]/60 flex flex-col">
+<body class="font-sans antialiased bg-ink text-white min-h-screen">
+    <div class="min-h-screen flex flex-col">
     @include('layouts.header')
-    <main class="container mx-auto px-4 pt-[75px] lg:pt-10 pb-8 flex-1">
+    <main class="flex-1">
         @yield('content')
     </main>
     @include('layouts.footer')
 
     {{-- Sticky mobile CTA --}}
     <div id="sticky-cta" class="md:hidden fixed bottom-0 inset-x-0 z-40 translate-y-full transition-transform duration-300 ease-out">
-        <div class="bg-[#1e2333]/90 backdrop-blur-sm border-t border-[#5F963B]/30 px-4 py-3 safe-area-inset-bottom">
-            <button onclick="openModal()" class="w-full bg-[#5F963B] hover:bg-[#6faa45] active:scale-[0.98] text-white font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 shadow-lg shadow-[#5F963B]/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                </svg>
+        <div class="bg-ink/95 backdrop-blur-sm border-t border-line px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2.5">
+            @php $ctaPhone = isset($exchangePoints) && $exchangePoints->isNotEmpty() ? trim(explode(',', $exchangePoints->first()->telephone)[0]) : null; @endphp
+            @if($ctaPhone)
+            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $ctaPhone) }}" class="flex-1 min-h-[52px] rounded-2xl border border-[#2E3650] text-white font-extrabold text-[15px] flex items-center justify-center">
+                Подзвонити
+            </a>
+            @endif
+            <button onclick="openModal()" class="flex-[1.4] min-h-[52px] rounded-2xl bg-lime text-ink font-extrabold text-[15px] flex items-center justify-center active:scale-[0.98] transition-transform">
                 Замовити дзвінок
             </button>
         </div>

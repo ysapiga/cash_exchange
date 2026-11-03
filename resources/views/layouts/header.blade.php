@@ -1,14 +1,30 @@
-<header class="bg-[#262b3b]/95 backdrop-blur-sm shadow-lg sticky top-0 z-50 border-b border-[#5F963B]/30">
-    <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-[79px] lg:h-[86px]">
-            <div class="pt-1 lg:scale-[1.3] lg:translate-y-[17%] flex items-start self-start">
-                <img src="{{ asset('images/cash_new_without_background.png') }}" alt="Cash47" class="w-[130px] lg:w-32 h-auto">
-            </div>
-            <button onclick="openModal()" class="group relative bg-[#5F963B] text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-[#6faa45] active:scale-95 transition-all duration-200 shadow-lg shadow-[#5F963B]/25 flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                </svg>
-                Замовити
+@php
+    $headerPhone = isset($exchangePoints) && $exchangePoints->isNotEmpty() ? trim(explode(',', $exchangePoints->first()->telephone)[0]) : null;
+@endphp
+<header class="sticky top-0 z-50 bg-ink/90 backdrop-blur-md border-b border-[#232A3B]">
+    <div class="max-w-[1200px] mx-auto px-4 md:px-6 py-3 flex items-center gap-8">
+        <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
+            <img src="{{ asset('images/cash_new_without_background.png') }}" alt="Cash47" class="w-10 h-10 md:w-12 md:h-12 object-contain">
+            <span class="font-display font-bold text-lg md:text-xl tracking-tight text-white">Cash<span class="text-lime">47</span></span>
+        </a>
+
+        <nav aria-label="Основна навігація" class="hidden lg:flex gap-7 flex-1">
+            <a href="#rates" class="text-soft hover:text-white font-semibold text-[15px] transition-colors">Курси</a>
+            <a href="#calc" class="text-soft hover:text-white font-semibold text-[15px] transition-colors">Калькулятор</a>
+            <a href="#conv" class="text-soft hover:text-white font-semibold text-[15px] transition-colors">Конвертація</a>
+            <a href="#points" class="text-soft hover:text-white font-semibold text-[15px] transition-colors">Пункти обміну</a>
+        </nav>
+
+        <div class="flex items-center gap-5 ml-auto">
+            @if($headerPhone)
+            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $headerPhone) }}" class="hidden md:inline text-white font-bold text-[15px] tabular-nums hover:text-lime transition-colors">{{ $headerPhone }}</a>
+            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $headerPhone) }}" aria-label="Подзвонити" class="md:hidden w-11 h-11 rounded-full bg-raised border border-[#2E3650] inline-flex items-center justify-center text-lime">
+                <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+            </a>
+            @endif
+            <button type="button" onclick="openModal()" class="hidden md:inline-flex items-center gap-2 min-h-11 px-5 rounded-full bg-lime text-ink font-extrabold text-[15px] hover:bg-[#93D662] active:scale-95 transition-all">
+                <svg aria-hidden="true" class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+                Замовити дзвінок
             </button>
         </div>
     </div>
@@ -16,31 +32,29 @@
 
 <!-- Модальне вікно -->
 <div id="contactModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-[9999]">
-    <div class="bg-[#262b3b] border border-gray-600/50 rounded-2xl p-7 w-full max-w-md mx-4 shadow-2xl">
-        <div class="flex justify-between items-center mb-6">
+    <div class="bg-paper text-ink rounded-[28px] p-7 w-full max-w-md mx-4 shadow-2xl">
+        <div class="flex justify-between items-start mb-6">
             <div>
-                <h2 class="text-xl font-bold text-white">Замовити дзвінок</h2>
-                <p class="text-gray-400 text-sm mt-0.5">Ми передзвонимо вам найближчим часом</p>
+                <h2 class="font-display font-bold text-2xl tracking-tight">Замовити дзвінок</h2>
+                <p class="text-paper-muted text-sm mt-1">Ми передзвонимо вам найближчим часом</p>
             </div>
-            <button onclick="closeModal()" class="text-gray-500 hover:text-white hover:bg-gray-700 rounded-lg p-1.5 transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
+            <button type="button" onclick="closeModal()" aria-label="Закрити" class="text-paper-muted hover:text-ink hover:bg-[#E2E6DC] rounded-xl w-10 h-10 inline-flex items-center justify-center transition-colors">
+                <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
-        <form id="contactForm" class="space-y-4">
+        <form id="contactForm" class="js-contact-form space-y-4">
             @csrf
             <div>
-                <label for="contact_name" class="block text-sm font-medium text-gray-300 mb-1.5">Ім'я</label>
+                <label for="contact_name" class="block text-xs font-extrabold uppercase tracking-wider text-paper-muted mb-2">Ім'я</label>
                 <input type="text" id="contact_name" name="contact_name" placeholder="Введіть ваше ім'я" required
-                    class="w-full px-4 py-2.5 rounded-xl bg-gray-800/80 border border-gray-600/60 text-white placeholder-gray-500 focus:outline-none focus:border-[#5F963B] focus:ring-1 focus:ring-[#5F963B]/50 transition-all duration-200">
+                    class="w-full min-h-14 px-4 rounded-2xl bg-white border-2 border-[#D5DACE] text-ink placeholder-[#8A92A3] focus:outline-none focus:border-lime transition-colors">
             </div>
             <div>
-                <label for="contact_phone" class="block text-sm font-medium text-gray-300 mb-1.5">Номер телефону</label>
+                <label for="contact_phone" class="block text-xs font-extrabold uppercase tracking-wider text-paper-muted mb-2">Номер телефону</label>
                 <input type="tel" id="contact_phone" name="contact_phone" placeholder="+380 XX XXX XX XX" required
-                    class="w-full px-4 py-2.5 rounded-xl bg-gray-800/80 border border-gray-600/60 text-white placeholder-gray-500 focus:outline-none focus:border-[#5F963B] focus:ring-1 focus:ring-[#5F963B]/50 transition-all duration-200">
+                    class="w-full min-h-14 px-4 rounded-2xl bg-white border-2 border-[#D5DACE] text-ink placeholder-[#8A92A3] focus:outline-none focus:border-lime transition-colors">
             </div>
-            <button type="submit" class="w-full bg-[#5F963B] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#6faa45] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-[#5F963B]/20 mt-2">
+            <button type="submit" class="w-full min-h-14 bg-ink text-white rounded-2xl font-extrabold hover:bg-[#1F2536] active:scale-[0.98] transition-all mt-2">
                 Відправити
             </button>
         </form>
@@ -70,14 +84,15 @@
         }
     });
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    // Every contact form on the page (modal + inline CTA block) posts the same way
+    document.addEventListener('submit', function(e) {
+        var form = e.target.closest('.js-contact-form');
+        if (!form) return;
         e.preventDefault();
-
-        const formData = new FormData(this);
 
         fetch('{{ route('contact-requests.store') }}', {
             method: 'POST',
-            body: formData,
+            body: new FormData(form),
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
@@ -86,7 +101,7 @@
         .then(data => {
             alert(data.message);
             closeModal();
-            this.reset();
+            form.reset();
         })
         .catch(error => {
             console.error('Error:', error);

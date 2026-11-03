@@ -19,8 +19,40 @@ class Currency extends Model
         'is_active' => 'boolean'
     ];
 
+    private const NAMES = [
+        'USD' => 'Долар США',
+        'EUR' => 'Євро',
+        'HUF' => 'Угорський форинт',
+        'CZK' => 'Чеська крона',
+        'PLN' => 'Польський злотий',
+        'GBP' => 'Фунт стерлінгів',
+        'CHF' => 'Швейцарський франк',
+        'UAH' => 'Українська гривня',
+    ];
+
+    private const SYMBOLS = [
+        'USD' => '$',
+        'EUR' => '€',
+        'HUF' => 'Ft',
+        'CZK' => 'Kč',
+        'PLN' => 'zł',
+        'GBP' => '£',
+        'CHF' => 'Fr',
+        'UAH' => '₴',
+    ];
+
     public function rates()
     {
         return $this->hasMany(CurrencyRate::class);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return self::NAMES[$this->currency_code] ?? null;
+    }
+
+    public function getSymbolAttribute(): string
+    {
+        return self::SYMBOLS[$this->currency_code] ?? $this->currency_code;
     }
 }

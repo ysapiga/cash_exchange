@@ -9,6 +9,66 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+
+    --color-ink: #0F131C;
+    --color-surface: #171C29;
+    --color-raised: #1F2536;
+    --color-line: #262D40;
+    --color-muted: #A7AFC0;
+    --color-soft: #C9CFDB;
+    --color-brand: #5F963B;
+    --color-lime: #7DC44A;
+    --color-up: #8FD35E;
+    --color-paper: #F4F6F1;
+    --color-paper-line: #DDE2D6;
+    --color-paper-muted: #4B5363;
+    --color-forest: #3F6B24;
+}
+
+/* Outlined "47" behind the hero */
+.outline-47 {
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(125 196 74 / 0.14);
+}
+
+/* Rates ticker under the header */
+@keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.ticker-track {
+    animation: ticker 40s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+}
+
+/* Numbered map markers */
+.map-pin {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: #7DC44A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.4);
+}
+.map-pin span {
+    transform: rotate(45deg);
+    color: #0F131C;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800;
+}
+
+/* Dark map: standard OSM tiles inverted to match the page */
+#exchange-map {
+    background: #171C29;
+}
+#exchange-map .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6);
 }
