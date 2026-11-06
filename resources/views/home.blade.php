@@ -49,8 +49,8 @@
                     Оновлено {{ $lastUpdated->format('d.m.Y') }} о {{ $lastUpdated->format('H:i') }}
                 </span>
                 @endif
-                <h1 class="font-display font-extrabold text-[40px] md:text-[68px] leading-[1.03] tracking-[-0.035em]">
-                    Обмін валют<br><span class="text-lime">у Мукачеві</span>
+                <h1 class="font-display font-extrabold text-[30px] sm:text-[40px] md:text-[48px] leading-[1.05] tracking-[-0.035em]">
+                    Інформаційний портал<br><span class="text-lime">курсів обміну валют</span>
                 </h1>
                 <p class="max-w-[480px] text-base md:text-[19px] leading-relaxed text-muted">
                     Курси купівлі та продажу на сьогодні, прямі конвертації між валютами
@@ -497,7 +497,7 @@
     @endif
 
     {{-- Callback CTA --}}
-    <section id="callback" class="max-w-[1200px] mx-auto px-4 md:px-6 pb-12 md:pb-24 scroll-mt-20">
+    <section id="callback" class="hidden md:block max-w-[1200px] mx-auto px-4 md:px-6 pb-12 md:pb-24 scroll-mt-20">
         <div class="bg-lime text-ink rounded-3xl md:rounded-[32px] p-6 md:p-14 flex flex-wrap gap-6 md:gap-10 items-center justify-between">
             <div class="flex-[1_1_420px] min-w-0">
                 <h2 class="font-display font-extrabold text-[28px] md:text-[40px] leading-[1.08] tracking-[-0.03em] mb-3">Замовте дзвінок</h2>

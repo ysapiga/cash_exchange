@@ -1,6 +1,3 @@
-@php
-    $headerPhone = isset($exchangePoints) && $exchangePoints->isNotEmpty() ? trim(explode(',', $exchangePoints->first()->telephone)[0]) : null;
-@endphp
 <header class="sticky top-0 z-50 bg-ink/90 backdrop-blur-md border-b border-[#232A3B]">
     <div class="max-w-[1200px] mx-auto px-4 md:px-6 py-3 flex items-center gap-8">
         <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
@@ -16,12 +13,6 @@
         </nav>
 
         <div class="flex items-center gap-5 ml-auto">
-            @if($headerPhone)
-            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $headerPhone) }}" class="hidden md:inline text-white font-bold text-[15px] tabular-nums hover:text-lime transition-colors">{{ $headerPhone }}</a>
-            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $headerPhone) }}" aria-label="Подзвонити" class="md:hidden w-11 h-11 rounded-full bg-raised border border-[#2E3650] inline-flex items-center justify-center text-lime">
-                <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-            </a>
-            @endif
             <button type="button" onclick="openModal()" class="hidden md:inline-flex items-center gap-2 min-h-11 px-5 rounded-full bg-lime text-ink font-extrabold text-[15px] hover:bg-[#93D662] active:scale-95 transition-all">
                 <svg aria-hidden="true" class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
                 Замовити дзвінок

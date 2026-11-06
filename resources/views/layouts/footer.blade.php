@@ -9,17 +9,6 @@
             </div>
         </div>
 
-        @if(isset($exchangePoints) && $exchangePoints->isNotEmpty())
-        <div class="flex flex-col gap-2.5">
-            <h3 class="text-xs font-extrabold uppercase tracking-[0.12em] text-muted mb-1">Контакти</h3>
-            @foreach($exchangePoints as $point)
-                @foreach(array_map('trim', explode(',', $point->telephone)) as $phone)
-                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="text-white hover:text-lime font-semibold tabular-nums transition-colors">{{ $phone }}</a>
-                @endforeach
-            @endforeach
-        </div>
-        @endif
-
         @if($socialLinks?->instagram || $socialLinks?->telegram || $socialLinks?->facebook)
         <div class="flex flex-col gap-2.5">
             <h3 class="text-xs font-extrabold uppercase tracking-[0.12em] text-muted mb-1">Соціальні мережі</h3>

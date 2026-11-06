@@ -48,12 +48,6 @@
     {{-- Sticky mobile CTA --}}
     <div id="sticky-cta" class="md:hidden fixed bottom-0 inset-x-0 z-40 translate-y-full transition-transform duration-300 ease-out">
         <div class="bg-ink/95 backdrop-blur-sm border-t border-line px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2.5">
-            @php $ctaPhone = isset($exchangePoints) && $exchangePoints->isNotEmpty() ? trim(explode(',', $exchangePoints->first()->telephone)[0]) : null; @endphp
-            @if($ctaPhone)
-            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $ctaPhone) }}" class="flex-1 min-h-[52px] rounded-2xl border border-[#2E3650] text-white font-extrabold text-[15px] flex items-center justify-center">
-                Подзвонити
-            </a>
-            @endif
             <button onclick="openModal()" class="flex-[1.4] min-h-[52px] rounded-2xl bg-lime text-ink font-extrabold text-[15px] flex items-center justify-center active:scale-[0.98] transition-transform">
                 Замовити дзвінок
             </button>
