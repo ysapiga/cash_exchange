@@ -41,6 +41,17 @@ class Currency extends Model
         'UAH' => '₴',
     ];
 
+    private const FLAGS = [
+        'USD' => 'us',
+        'EUR' => 'eu',
+        'HUF' => 'hu',
+        'CZK' => 'cz',
+        'PLN' => 'pl',
+        'GBP' => 'gb',
+        'CHF' => 'ch',
+        'UAH' => 'ua',
+    ];
+
     public function rates()
     {
         return $this->hasMany(CurrencyRate::class);
@@ -54,5 +65,12 @@ class Currency extends Model
     public function getSymbolAttribute(): string
     {
         return self::SYMBOLS[$this->currency_code] ?? $this->currency_code;
+    }
+
+    public function getFlagUrlAttribute(): ?string
+    {
+        $country = self::FLAGS[$this->currency_code] ?? null;
+
+        return $country ? asset("images/flags/{$country}.svg") : null;
     }
 }

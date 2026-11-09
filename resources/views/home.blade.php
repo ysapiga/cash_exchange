@@ -63,7 +63,11 @@
                     @foreach($featured as $rate)
                     <div class="bg-surface border border-line rounded-[20px] px-[22px] py-5 flex flex-col gap-3.5">
                         <div class="flex items-center gap-2.5">
+                            @if($rate->currency->flag_url)
+                            <img src="{{ $rate->currency->flag_url }}" alt="" class="w-[34px] h-[34px] rounded-full object-cover ring-1 ring-white/15">
+                            @else
                             <span class="w-[34px] h-[34px] rounded-full bg-lime text-ink inline-flex items-center justify-center font-extrabold text-sm">{{ $rate->currency->symbol }}</span>
+                            @endif
                             <span class="font-display font-bold">{{ $rate->currency->currency_code }}</span>
                         </div>
                         <div class="flex gap-5 tabular-nums">
@@ -359,7 +363,11 @@
                     <tr class="border-b border-[#222839] last:border-b-0 hover:bg-[#1C2233] transition-colors">
                         <th scope="row" class="text-left py-3.5 md:py-[18px] px-4 md:px-8 font-semibold">
                             <div class="flex items-center gap-2.5 md:gap-4">
+                                @if($rate->currency->flag_url)
+                                <img src="{{ $rate->currency->flag_url }}" alt="" class="w-[34px] h-[34px] md:w-11 md:h-11 rounded-full object-cover ring-1 ring-white/15 shrink-0">
+                                @else
                                 <span class="w-[34px] h-[34px] md:w-11 md:h-11 rounded-full bg-[#232A3D] border border-[#323A52] text-lime inline-flex items-center justify-center font-extrabold text-[13px] md:text-[15px] shrink-0">{{ $rate->currency->symbol }}</span>
+                                @endif
                                 <span class="flex flex-col gap-0.5">
                                     <span class="font-display font-bold text-sm md:text-[17px] text-white">{{ $rate->currency->currency_code }}</span>
                                     @if($rate->currency->name)
