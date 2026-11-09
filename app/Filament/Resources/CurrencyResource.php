@@ -27,61 +27,74 @@ class CurrencyResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Доступні Валюти';
 
+    /** Default flag for each currency code; the flag stays editable in the form. */
+    private const FLAGS = [
+        'USD' => '🇺🇸',
+        'EUR' => '🇪🇺',
+        'GBP' => '🇬🇧',
+        'CHF' => '🇨🇭',
+        'PLN' => '🇵🇱',
+        'CZK' => '🇨🇿',
+        'HUF' => '🇭🇺',
+        'RON' => '🇷🇴',
+        'BGN' => '🇧🇬',
+        'HRK' => '🇭🇷',
+        'RUB' => '🇷🇺',
+        'KZT' => '🇰🇿',
+        'TRY' => '🇹🇷',
+        'CNY' => '🇨🇳',
+        'JPY' => '🇯🇵',
+        'KRW' => '🇰🇷',
+        'AED' => '🇦🇪',
+        'ILS' => '🇮🇱',
+        'SEK' => '🇸🇪',
+        'NOK' => '🇳🇴',
+        'DKK' => '🇩🇰',
+        'AUD' => '🇦🇺',
+        'CAD' => '🇨🇦',
+        'NZD' => '🇳🇿',
+        'SGD' => '🇸🇬',
+        'HKD' => '🇭🇰',
+        'THB' => '🇹🇭',
+        'INR' => '🇮🇳',
+        'BRL' => '🇧🇷',
+        'ZAR' => '🇿🇦',
+        'MXN' => '🇲🇽',
+        'ARS' => '🇦🇷',
+        'CLP' => '🇨🇱',
+        'PEN' => '🇵🇪',
+        'COP' => '🇨🇴',
+        'EGP' => '🇪🇬',
+        'MAD' => '🇲🇦',
+        'TND' => '🇹🇳',
+        'LBP' => '🇱🇧',
+        'JOD' => '🇯🇴',
+        'QAR' => '🇶🇦',
+        'KWD' => '🇰🇼',
+        'BHD' => '🇧🇭',
+        'OMR' => '🇴🇲',
+        'SAR' => '🇸🇦',
+    ];
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('currency_code')
                     ->required()
-                    ->maxLength(5),
+                    ->maxLength(5)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (?string $state, Forms\Set $set) {
+                        $flag = self::FLAGS[strtoupper(trim((string) $state))] ?? null;
+                        if ($flag) {
+                            $set('icon', $flag);
+                        }
+                    }),
                 Forms\Components\Select::make('icon')
-                    ->options([
-                        '🇺🇸' => 'USD',
-                        '🇪🇺' => 'EUR',
-                        '🇬🇧' => 'GBP',
-                        '🇨🇭' => 'CHF',
-                        '🇵🇱' => 'PLN',
-                        '🇨🇿' => 'CZK',
-                        '🇭🇺' => 'HUF',
-                        '🇷🇴' => 'RON',
-                        '🇧🇬' => 'BGN',
-                        '🇭🇷' => 'HRK',
-                        '🇷🇺' => 'RUB',
-                        '🇰🇿' => 'KZT',
-                        '🇹🇷' => 'TRY',
-                        '🇨🇳' => 'CNY',
-                        '🇯🇵' => 'JPY',
-                        '🇰🇷' => 'KRW',
-                        '🇦🇪' => 'AED',
-                        '🇮🇱' => 'ILS',
-                        '🇸🇪' => 'SEK',
-                        '🇳🇴' => 'NOK',
-                        '🇩🇰' => 'DKK',
-                        '🇦🇺' => 'AUD',
-                        '🇨🇦' => 'CAD',
-                        '🇳🇿' => 'NZD',
-                        '🇸🇬' => 'SGD',
-                        '🇭🇰' => 'HKD',
-                        '🇹🇭' => 'THB',
-                        '🇮🇳' => 'INR',
-                        '🇧🇷' => 'BRL',
-                        '🇿🇦' => 'ZAR',
-                        '🇲🇽' => 'MXN',
-                        '🇦🇷' => 'ARS',
-                        '🇨🇱' => 'CLP',
-                        '🇵🇪' => 'PEN',
-                        '🇨🇴' => 'COP',
-                        '🇪🇬' => 'EGP',
-                        '🇲🇦' => 'MAD',
-                        '🇹🇳' => 'TND',
-                        '🇱🇧' => 'LBP',
-                        '🇯🇴' => 'JOD',
-                        '🇶🇦' => 'QAR',
-                        '🇰🇼' => 'KWD',
-                        '🇧🇭' => 'BHD',
-                        '🇴🇲' => 'OMR',
-                        '🇸🇦' => 'SAR',
-                    ])
+                    ->label('Прапор')
+                    ->options(collect(self::FLAGS)->mapWithKeys(fn (string $emoji, string $code) => [$emoji => self::flagLabel($emoji, $code)]))
+                    ->allowHtml()
+                    ->native(false)
                     ->required(),
                 Forms\Components\Toggle::make('is_active')
                     ->label('Активна')
@@ -95,10 +108,11 @@ class CurrencyResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('currency_code')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
+                Tables\Columns\ImageColumn::make('icon')
                     ->label('Прапор')
-                    ->formatStateUsing(fn ($state) => $state)
-                    ->searchable(),
+                    ->getStateUsing(fn (Currency $record) => $record->flag_url)
+                    ->circular()
+                    ->size(28),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Активна')
                     ->boolean()
@@ -118,6 +132,14 @@ class CurrencyResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private static function flagLabel(string $emoji, string $code): string
+    {
+        $url = Currency::flagUrlFromEmoji($emoji);
+        $img = $url ? '<img src="' . e($url) . '" alt="" style="width:20px;height:20px;border-radius:9999px;object-fit:cover">' : e($emoji);
+
+        return '<span style="display:inline-flex;align-items:center;gap:8px">' . $img . e($code) . '</span>';
     }
 
     public static function getRelations(): array

@@ -41,17 +41,6 @@ class Currency extends Model
         'UAH' => '₴',
     ];
 
-    private const FLAGS = [
-        'USD' => 'us',
-        'EUR' => 'eu',
-        'HUF' => 'hu',
-        'CZK' => 'cz',
-        'PLN' => 'pl',
-        'GBP' => 'gb',
-        'CHF' => 'ch',
-        'UAH' => 'ua',
-    ];
-
     public function rates()
     {
         return $this->hasMany(CurrencyRate::class);
@@ -69,8 +58,28 @@ class Currency extends Model
 
     public function getFlagUrlAttribute(): ?string
     {
-        $country = self::FLAGS[$this->currency_code] ?? null;
+        return self::flagUrlFromEmoji($this->icon);
+    }
 
-        return $country ? asset("images/flags/{$country}.svg") : null;
+    /**
+     * SVG flag for an emoji flag (e.g. 🇺🇸 → images/flags/us.svg).
+     */
+    public static function flagUrlFromEmoji(?string $emoji): ?string
+    {
+        $chars = mb_str_split((string) $emoji);
+        if (count($chars) !== 2) {
+            return null;
+        }
+
+        $country = '';
+        foreach ($chars as $char) {
+            $offset = mb_ord($char) - 0x1F1E6; // Regional indicator symbol letter A
+            if ($offset < 0 || $offset > 25) {
+                return null;
+            }
+            $country .= chr(ord('a') + $offset);
+        }
+
+        return is_file(public_path("images/flags/{$country}.svg")) ? asset("images/flags/{$country}.svg") : null;
     }
 }
