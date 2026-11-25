@@ -31,6 +31,7 @@ class TransactionsRelationManager extends RelationManager
                     ->label('Редагувати')
                     ->icon('heroicon-m-pencil-square')
                     ->url(fn (Transaction $record) => TransactionResource::getUrl('edit', ['record' => $record])),
+                Tables\Actions\DeleteAction::make(),
             ]);
     }
 }
