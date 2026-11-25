@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Таблиця могла бути створена раніше без запису в migrations
+        if (Schema::hasTable('exchange_points')) {
+            return;
+        }
+
         Schema::create('exchange_points', function (Blueprint $table) {
             $table->id();
             $table->string('name');

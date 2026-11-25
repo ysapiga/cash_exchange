@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Колонка могла бути додана раніше без запису в migrations
+        if (Schema::hasColumn('customers', 'note')) {
+            return;
+        }
+
         Schema::table('customers', function (Blueprint $table) {
             $table->text('note')->nullable();
         });

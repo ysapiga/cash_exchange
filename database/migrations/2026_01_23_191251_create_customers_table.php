@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Таблиця могла бути створена раніше без запису в migrations
+        if (Schema::hasTable('customers')) {
+            return;
+        }
+
         Schema::create('customers', function (Blueprint $table) {
             $table->id(); // первинний ключ
             $table->string('identifier')->unique(); // унікальний ідентифікатор

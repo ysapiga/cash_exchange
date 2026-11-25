@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('conversion_rates', function (Blueprint $table) {
-            $table->integer('position')->default(0)->after('id');
-        });
+        // Колонки могли бути додані раніше без запису в migrations
+        if (! Schema::hasColumn('conversion_rates', 'position')) {
+            Schema::table('conversion_rates', function (Blueprint $table) {
+                $table->integer('position')->default(0)->after('id');
+            });
+        }
 
-        Schema::table('currency_rates', function (Blueprint $table) {
-            $table->integer('position')->default(0)->after('id');
-        });
+        if (! Schema::hasColumn('currency_rates', 'position')) {
+            Schema::table('currency_rates', function (Blueprint $table) {
+                $table->integer('position')->default(0)->after('id');
+            });
+        }
     }
 
     /**

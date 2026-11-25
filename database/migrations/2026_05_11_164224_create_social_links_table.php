@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Таблиця могла бути створена раніше без запису в migrations
+        if (Schema::hasTable('social_links')) {
+            return;
+        }
+
         Schema::create('social_links', function (Blueprint $table) {
             $table->id();
             $table->string('instagram')->nullable();
